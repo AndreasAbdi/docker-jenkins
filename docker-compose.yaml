@@ -1,0 +1,20 @@
+version: '2'
+services: 
+
+ jenkinsdata:
+  build: ./jenkins-data
+  image: andreas/jenkins-data
+ jenkinsmaster:
+  build: ./jenkins-master
+  image: andreas/jenkins-master
+  volumes_from:
+   - jenkinsdata
+  ports:
+   - "50000:50000"
+ jenkinsnginx:
+  build: jenkins-nginx
+  image: andreas/jenkins-nginx
+  ports:
+   - "80:80"
+  links:
+   - jenkinsmaster:jenkins-master
